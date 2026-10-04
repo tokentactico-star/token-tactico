@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es" data-idioma="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TokenTactico — juegos y apps para Android</title>
+<meta name="description" content="Estudio independiente de juegos y apps para Android. Juegos que respetan tu tiempo y apps que te lo ahorran.">
+<link rel="canonical" href="https://tokentactico-star.github.io/token-tactico/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TokenTactico">
+<meta property="og:title" content="TokenTactico — juegos y apps para Android">
+<meta property="og:description" content="Juegos que respetan tu tiempo. Apps que te lo ahorran.">
+<meta property="og:url" content="https://tokentactico-star.github.io/token-tactico/">
+<meta name="theme-color" content="#0e1320">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f2b23a'/%3E%3Ccircle cx='32' cy='32' r='23' fill='none' stroke='%230e1320' stroke-width='3' stroke-dasharray='4.5 4.5'/%3E%3Cpath d='M19 21h26v7h-9.5v18h-7V28H19z' fill='%230e1320'/%3E%3C/svg%3E">
+<style>
+:root {
+  --tinta: #0e1320; --tinta-2: #141b2c; --tinta-3: #1b2439; --texto: #e9edf5; --suave: #a3adc2;
+  --ambar: #f2b23a; --turquesa: #35c9b9; --borde: rgba(255, 255, 255, .09);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--tinta); color: var(--texto);
+  font: 17px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+html[data-idioma="es"] [lang="en"], html[data-idioma="en"] [lang="es"] { display: none !important; }
+a { color: inherit; }
+.envoltura { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+/* cabecera */
+header { position: sticky; top: 0; z-index: 10; background: rgba(14, 19, 32, .86); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--borde); }
+.barra { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+.marca { display: flex; align-items: center; gap: 10px; font-weight: 750; letter-spacing: -.01em; text-decoration: none; }
+.marca svg { width: 30px; height: 30px; flex: none; }
+nav { display: flex; align-items: center; gap: 22px; font-size: 15px; }
+nav a { text-decoration: none; color: var(--suave); }
+nav a:hover { color: var(--texto); }
+.idiomas { display: flex; border: 1px solid var(--borde); border-radius: 999px; overflow: hidden; }
+.idiomas button { background: none; border: 0; color: var(--suave); font: inherit; font-size: 13px; font-weight: 650;
+  padding: 5px 11px; cursor: pointer; }
+.idiomas button[aria-pressed="true"] { background: var(--ambar); color: var(--tinta); }
+@media (max-width: 720px) { nav .enlace { display: none; } }
+
+/* portada: un tablero de juego al fondo */
+.portada { position: relative; overflow: hidden; padding: 96px 0 88px; border-bottom: 1px solid var(--borde);
+  background:
+    radial-gradient(600px 320px at 85% 10%, rgba(242, 178, 58, .16), transparent 70%),
+    radial-gradient(520px 300px at 10% 90%, rgba(53, 201, 185, .13), transparent 70%),
+    linear-gradient(var(--borde) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--borde) 1px, transparent 1px) 0 0 / 48px 48px; }
+.antetitulo { display: inline-block; font-size: 13px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ambar); border: 1px solid rgba(242, 178, 58, .35); border-radius: 999px; padding: 4px 12px; }
+h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.06; letter-spacing: -.03em; margin: 22px 0 18px; max-width: 14em; }
+h1 .juego { color: var(--ambar); }
+h1 .app { color: var(--turquesa); }
+.entrada { font-size: clamp(17px, 2.1vw, 20px); color: var(--suave); max-width: 40em; margin: 0 0 32px; }
+.botones { display: flex; flex-wrap: wrap; gap: 12px; }
+.boton { display: inline-block; padding: 12px 20px; border-radius: 10px; font-weight: 650; text-decoration: none;
+  border: 1px solid var(--borde); }
+.boton.principal { background: var(--ambar); color: var(--tinta); border-color: var(--ambar); }
+.boton:hover { filter: brightness(1.08); }
+
+/* bloques */
+section { padding: 80px 0; border-bottom: 1px solid var(--borde); }
+h2 { font-size: clamp(26px, 3.6vw, 38px); letter-spacing: -.02em; line-height: 1.15; margin: 0 0 14px; }
+.sub { color: var(--suave); max-width: 42em; margin: 0 0 36px; }
+.dos { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .dos { grid-template-columns: 1fr 1fr; } }
+.tarjeta { background: var(--tinta-2); border: 1px solid var(--borde); border-radius: 16px; padding: 28px; }
+.tarjeta h3 { display: flex; align-items: center; gap: 12px; font-size: 22px; margin: 0 0 8px; }
+.tarjeta p { color: var(--suave); margin: 0 0 16px; }
+.ficha { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  box-shadow: inset 0 0 0 3px var(--tinta-2), inset 0 0 0 5px currentColor; }
+.ficha svg { width: 18px; height: 18px; }
+.ficha.juego { background: var(--ambar); color: var(--ambar); }
+.ficha.app { background: var(--turquesa); color: var(--turquesa); }
+.ficha svg { fill: none; stroke: var(--tinta); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+ul.lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+ul.lista li { position: relative; padding-left: 26px; }
+ul.lista li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 10px; height: 10px; border-radius: 50%; }
+.tarjeta.juego ul.lista li::before { background: var(--ambar); }
+.tarjeta.app ul.lista li::before { background: var(--turquesa); }
+
+.puente { display: grid; gap: 28px; align-items: center; grid-template-columns: 1fr; }
+@media (min-width: 860px) { .puente { grid-template-columns: 1.1fr .9fr; } }
+.cita { background: var(--tinta-3); border-left: 4px solid var(--ambar); border-radius: 0 14px 14px 0; padding: 22px 26px;
+  font-size: 19px; }
+.cita small { display: block; color: var(--suave); font-size: 15px; margin-top: 10px; }
+
+.cuatro { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 560px) { .cuatro { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { .cuatro { grid-template-columns: repeat(4, 1fr); } }
+.principio { background: var(--tinta-2); border: 1px solid var(--borde); border-radius: 14px; padding: 22px; }
+.principio b { display: block; font-size: 17px; margin-bottom: 6px; }
+.principio span { color: var(--suave); font-size: 15px; }
+.principio .num { font-size: 13px; font-weight: 700; color: var(--ambar); letter-spacing: .08em; margin-bottom: 10px; display: block; }
+
+.taller { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, rgba(242, 178, 58, .12), rgba(53, 201, 185, .10));
+  border: 1px solid var(--borde); border-radius: 18px; padding: 32px; }
+.taller p { margin: 0; color: var(--suave); max-width: 38em; }
+.estado { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 650; color: var(--turquesa);
+  margin-bottom: 10px; }
+.estado::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--turquesa);
+  box-shadow: 0 0 0 4px rgba(53, 201, 185, .2); }
+
+.contacto { display: flex; flex-wrap: wrap; gap: 8px 32px; align-items: center; justify-content: space-between; }
+.contacto .sub { margin-bottom: 0; }
+.correo { font-size: clamp(20px, 3vw, 28px); font-weight: 700; color: var(--ambar); text-decoration: none;
+  border-bottom: 2px solid rgba(242, 178, 58, .4); padding-bottom: 2px; word-break: break-all; }
+.correo:hover { border-bottom-color: var(--ambar); }
+footer { padding: 36px 0 48px; color: var(--suave); font-size: 14px; }
+footer .envoltura { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+</style>
+</head>
+<body>
+<header>
+  <div class="envoltura barra">
+    <a class="marca" href="#">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f2b23a"/><circle cx="32" cy="32" r="23" fill="none" stroke="#0e1320" stroke-width="3" stroke-dasharray="4.5 4.5"/><path d="M19 21h26v7h-9.5v18h-7V28H19z" fill="#0e1320"/></svg>
+      TokenTactico
+    </a>
+    <nav>
+      <a class="enlace" href="#lineas"><span lang="es">Qué hacemos</span><span lang="en">What we make</span></a>
+      <a class="enlace" href="#forma"><span lang="es">Nuestra forma</span><span lang="en">How we work</span></a>
+      <a class="enlace" href="#taller"><span lang="es">En el taller</span><span lang="en">In the workshop</span></a>
+      <a class="enlace" href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+      <div class="idiomas" role="group" aria-label="Idioma / Language">
+        <button type="button" data-poner="es" aria-pressed="true">ES</button>
+        <button type="button" data-poner="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="portada">
+    <div class="envoltura">
+      <span class="antetitulo"><span lang="es">Estudio independiente · Android</span><span lang="en">Independent studio · Android</span></span>
+      <h1 lang="es"><span class="juego">Juegos</span> que respetan tu tiempo. <span class="app">Apps</span> que te lo ahorran.</h1>
+      <h1 lang="en"><span class="juego">Games</span> that respect your time. <span class="app">Apps</span> that save it.</h1>
+      <p class="entrada" lang="es">En TokenTactico hacemos dos cosas que parecen distintas y no lo son: juegos para pasarlo bien y aplicaciones que resuelven cosas del día a día. Las dos nacen de la misma idea: cada pieza, en el sitio justo.</p>
+      <p class="entrada" lang="en">At TokenTactico we make two things that look different but aren't: games to have a good time and apps that solve everyday tasks. Both come from the same idea: every piece in exactly the right place.</p>
+      <div class="botones">
+        <a class="boton principal" href="#lineas"><span lang="es">Ver lo que hacemos</span><span lang="en">See what we make</span></a>
+        <a class="boton" href="#taller"><span lang="es">Qué estamos preparando</span><span lang="en">What we're building</span></a>
+      </div>
+    </div>
+  </div>
+
+  <section id="lineas">
+    <div class="envoltura">
+      <h2 lang="es">Dos líneas, una misma forma de hacer</h2>
+      <h2 lang="en">Two lines, one way of working</h2>
+      <p class="sub" lang="es">¿Por qué TokenTactico? En los juegos de mesa, un token es una ficha: pequeña, sencilla y colocada con intención, con táctica. Así queremos que sea cada cosa que publicamos, sea un juego o una herramienta.</p>
+      <p class="sub" lang="en">Why TokenTactico? In board games, a token is a playing piece: small, simple and placed with intent, tactically. That's how we want everything we release to be, whether it's a game or a tool.</p>
+      <div class="dos">
+        <article class="tarjeta juego">
+          <h3><span class="ficha juego"><svg viewBox="0 0 24 24"><path d="M7 17l4-4m6-6l-6 6m0 0l2 6m-2-6l-6-2"/></svg></span><span lang="es">Juegos</span><span lang="en">Games</span></h3>
+          <p lang="es">Estrategia y puzle en partidas cortas, para jugar en el móvil cuando tengas un rato.</p>
+          <p lang="en">Strategy and puzzle games in short sessions, made for your phone and your spare minutes.</p>
+          <ul class="lista">
+            <li><span lang="es">Sin esperas artificiales para alargar la partida</span><span lang="en">No artificial timers to stretch the game</span></li>
+            <li><span lang="es">Anuncios solo si tú decides verlos</span><span lang="en">Ads only when you choose to watch them</span></li>
+            <li><span lang="es">Se puede jugar sin conexión</span><span lang="en">Playable offline</span></li>
+          </ul>
+        </article>
+        <article class="tarjeta app">
+          <h3><span class="ficha app"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span lang="es">Apps de servicio</span><span lang="en">Utility apps</span></h3>
+          <p lang="es">Herramientas sencillas que hacen una cosa y la hacen bien.</p>
+          <p lang="en">Simple tools that do one thing and do it well.</p>
+          <ul class="lista">
+            <li><span lang="es">Abrir, resolver y seguir con tu día</span><span lang="en">Open, get it done, get on with your day</span></li>
+            <li><span lang="es">Solo los datos imprescindibles</span><span lang="en">Only the data that is strictly needed</span></li>
+            <li><span lang="es">Funcionan sin conexión cuando es posible</span><span lang="en">Work offline whenever possible</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="forma">
+    <div class="envoltura puente">
+      <div>
+        <h2 lang="es">Por qué juegos y apps, juntos</h2>
+        <h2 lang="en">Why games and apps, together</h2>
+        <p class="sub" lang="es">Del diseño de juegos nos traemos lo que hace que algo apetezca usar: objetivos claros, progreso visible y recompensas justas. De las apps de servicio, la disciplina: rapidez, claridad y respeto por tus datos.</p>
+        <p class="sub" lang="en">From game design we bring what makes something a pleasure to use: clear goals, visible progress and fair rewards. From utility apps, the discipline: speed, clarity and respect for your data.</p>
+      </div>
+      <p class="cita" lang="es">Un juego mejora con la disciplina de una herramienta. Una herramienta mejora con la chispa de un juego.<small>La regla de la casa</small></p>
+      <p class="cita" lang="en">A game gets better with the discipline of a tool. A tool gets better with the spark of a game.<small>House rule</small></p>
+    </div>
+    <div class="envoltura" style="margin-top: 40px">
+      <div class="cuatro">
+        <div class="principio"><span class="num">01</span><b lang="es">Tu tiempo manda</b><b lang="en">Your time comes first</b><span lang="es">Nada de trucos para retenerte: si te gusta, volverás.</span><span lang="en">No tricks to keep you hooked: if you like it, you'll be back.</span></div>
+        <div class="principio"><span class="num">02</span><b lang="es">Privacidad primero</b><b lang="en">Privacy first</b><span lang="es">Pedimos solo lo imprescindible y lo decimos claro.</span><span lang="en">We only ask for what is essential, and we say so plainly.</span></div>
+        <div class="principio"><span class="num">03</span><b lang="es">Hecho para el móvil</b><b lang="en">Made for mobile</b><span lang="es">Ligero, rápido y cómodo con una mano.</span><span lang="en">Light, fast and comfortable one-handed.</span></div>
+        <div class="principio"><span class="num">04</span><b lang="es">Medimos antes de construir</b><b lang="en">We measure before we build</b><span lang="es">Estudiamos qué echa en falta la gente en lo que ya existe y empezamos por ahí.</span><span lang="en">We study what people miss in what already exists, and start there.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="taller">
+    <div class="envoltura">
+      <div class="taller">
+        <div>
+          <span class="estado"><span lang="es">En desarrollo</span><span lang="en">In development</span></span>
+          <h2 lang="es">Nuestro primer juego está en el taller</h2>
+          <h2 lang="en">Our first game is in the workshop</h2>
+          <p lang="es">Cuando esté listo para probar abriremos una prueba cerrada en Google Play. Las primeras apps de servicio vendrán después, con la misma forma de hacer.</p>
+          <p lang="en">When it's ready to try, we'll open a closed test on Google Play. The first utility apps will follow, built the same way.</p>
+        </div>
+        <a class="boton principal" data-correo="probar" href="#contacto"><span lang="es">Quiero probarlo antes que nadie</span><span lang="en">I want to try it first</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="envoltura contacto">
+      <div>
+        <h2 lang="es">Contacto</h2>
+        <h2 lang="en">Contact</h2>
+        <p class="sub" lang="es">¿Quieres probar nuestros juegos antes que nadie, proponer una app o contarnos algo? Escríbenos: respondemos en persona.</p>
+        <p class="sub" lang="en">Want to test our games before anyone else, suggest an app or just say hi? Write to us: a real person answers.</p>
+      </div>
+      <a class="correo" data-correo="contacto" href="#contacto"><span data-correo-texto>tokentactico [arroba] gmail.com</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="envoltura">
+    <span>© 2026 TokenTactico · <span lang="es">Hecho en España</span><span lang="en">Made in Spain</span></span>
+    <span lang="es">Esta web no usa cookies ni analítica. Android es una marca de Google LLC.</span>
+    <span lang="en">This site uses no cookies or analytics. Android is a trademark of Google LLC.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var raiz = document.documentElement;
+  function poner(idioma) {
+    raiz.setAttribute("data-idioma", idioma);
+    raiz.setAttribute("lang", idioma);
+    document.querySelectorAll("[data-poner]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-poner") === idioma));
+    });
+    try { localStorage.setItem("idioma", idioma); } catch (e) {}
+    enlazarCorreo(idioma);
+  }
+  var correo = ["tokentactico", "gmail.com"].join("@");
+  var asuntos = {
+    probar: { es: "Quiero probar el primer juego de TokenTactico", en: "I want to test TokenTactico's first game" },
+    contacto: { es: "Hola, TokenTactico", en: "Hello, TokenTactico" }
+  };
+  function enlazarCorreo(idioma) {
+    document.querySelectorAll("[data-correo]").forEach(function (a) {
+      var asunto = (asuntos[a.getAttribute("data-correo")] || asuntos.contacto)[idioma];
+      a.setAttribute("href", "mailto:" + correo + "?subject=" + encodeURIComponent(asunto));
+    });
+    document.querySelectorAll("[data-correo-texto]").forEach(function (s) { s.textContent = correo; });
+  }
+  var guardado = null;
+  try { guardado = localStorage.getItem("idioma"); } catch (e) {}
+  poner(guardado || ((navigator.language || "es").slice(0, 2) === "es" ? "es" : "en"));
+  document.querySelectorAll("[data-poner]").forEach(function (b) {
+    b.addEventListener("click", function () { poner(b.getAttribute("data-poner")); });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+/* carga_epica.css — la PORTADA ÉPICA mientras se descarga el juego (Guardián, 13/10/2026: «le faltan los efectos de
+   luz de la batalla épica, hay que dejar flipado al usuario: luces, zum, etcétera. ¡Y sonido!»). La imagen es la de
+   arranque (index.png = sprites/ui/entrada/pantalla_carga.png); encima, luces que laten, rayos vivos, la onda de cada
+   golpe, brasas, antorchas y un zum lento hacia el choque. Lo monta carga_epica.js dentro de #status, así desaparece
+   solo cuando Godot quita la pantalla de carga. */
+#epica { position: absolute; overflow: hidden; pointer-events: none; }
+#epica-zum { position: absolute; inset: 0; transform-origin: 60% 64%;
+	animation: epica-entra 1.4s cubic-bezier(.2,.8,.2,1) both, epica-acerca 26s 1.4s ease-out both; }
+#epica-tiembla { position: absolute; inset: 0; }
+#epica-tiembla > img.epica-fondo { position: absolute; inset: 0; width: 100%; height: 100%;
+	animation: epica-aclara 1.4s ease-out both; }
+#status #status-splash { opacity: 0; }
+.epica-luz { position: absolute; border-radius: 50%; transform: translate(-50%, -50%);
+	mix-blend-mode: screen; will-change: opacity, transform; }
+.epica-img { position: absolute; transform: translate(-50%, -50%); mix-blend-mode: screen; }
+.epica-rayo { position: absolute; transform-origin: 50% 0; background-size: 100% 100%;
+	mix-blend-mode: screen; }
+.epica-brasa { position: absolute; width: 2.2%; aspect-ratio: 1; background: url(brasa.png) center/contain no-repeat;
+	mix-blend-mode: screen; animation: epica-sube linear infinite; }
+#epica-flash { position: absolute; inset: 0; background: radial-gradient(circle at 60% 64%, #fff8e0 0, #ffcf6a 25%,
+	rgba(255,120,40,.0) 70%); opacity: 0; mix-blend-mode: screen; }
+#epica-vineta { position: absolute; inset: 0; opacity: .35; mix-blend-mode: screen;
+	background: radial-gradient(ellipse at 50% 55%, transparent 55%, rgba(200,20,10,.55) 100%); }
+#epica-brillo { position: absolute; left: 30%; top: 1%; width: 40%; height: 26%; mix-blend-mode: overlay;
+	background: linear-gradient(105deg, transparent 35%, rgba(255,240,200,.95) 50%, transparent 65%) no-repeat;
+	background-size: 250% 100%; animation: epica-brillo 4.5s 1.6s ease-in-out infinite; }
+#epica-sonido { position: absolute; left: 50%; top: 2.2%; transform: translateX(-50%); pointer-events: auto;
+	font: 600 15px/1 'Noto Sans', Arial, sans-serif; color: #ffe2b0; background: rgba(20,6,8,.78);
+	border: 1px solid #c8282a; border-radius: 999px; padding: 9px 16px; white-space: nowrap; z-index: 3;
+	box-shadow: 0 0 14px rgba(255,60,30,.55); animation: epica-llama 1.2s ease-in-out infinite alternate; }
+#epica-sonido.fuera { opacity: 0; transition: opacity .4s; pointer-events: none; }
+#status { touch-action: manipulation; }
+#status-progress, #status::after { z-index: 2; }
+
+@keyframes epica-entra { from { transform: scale(1.35); filter: blur(6px); } to { transform: scale(1); filter: none; } }
+@keyframes epica-acerca { from { transform: scale(1); } to { transform: scale(1.1); } }
+@keyframes epica-aclara { from { filter: brightness(.15) saturate(.6); } 55% { filter: brightness(1.6) saturate(1.3); }
+	to { filter: none; } }
+@keyframes epica-sube { from { transform: translate(0, 0) scale(1); opacity: 0; } 12% { opacity: 1; }
+	50% { transform: translate(var(--vaiven), -45vh) scale(.85); } 85% { opacity: .9; }
+	to { transform: translate(0, -95vh) scale(.5); opacity: 0; } }
+@keyframes epica-llama { from { box-shadow: 0 0 8px rgba(255,60,30,.4); } to { box-shadow: 0 0 22px rgba(255,140,40,.85); } }
+@keyframes epica-brillo { 0% { background-position: 150% 0; } 45%, 100% { background-position: -60% 0; } }
+@keyframes epica-antorcha { 0% { opacity: .55; transform: translate(-50%,-50%) scale(.92); }
+	30% { opacity: .9; transform: translate(-50%,-52%) scale(1.06); } 55% { opacity: .65; }
+	75% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); } 100% { opacity: .6; transform: translate(-50%,-50%) scale(.95); } }
+@keyframes epica-respira { from { opacity: .35; } to { opacity: .85; } }
+@keyframes epica-gira { from { transform: translate(-50%,-50%) rotate(0); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { #epica-zum { animation: none; } }

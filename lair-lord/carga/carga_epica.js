@@ -1,7 +1,19 @@
+// (Guardián, 17/10/2026: «la música no puede esperar a que el jugador toque la pantalla») apunta cada AudioContext que
+// se crea (también el de Godot) en window.__audios, para que el juego pueda reanudarlo en cuanto el navegador lo
+// permita (si ya se tocó la pantalla durante la carga) y arrancar la música sin esperar otro toque
+(function () {
+	var A = window.AudioContext || window.webkitAudioContext;
+	if (!A) return;
+	window.__audios = [];
+	var Apuntado = function (o) { var c = o === undefined ? new A() : new A(o); window.__audios.push(c); return c; };
+	Apuntado.prototype = A.prototype;
+	window.AudioContext = Apuntado;
+	if (window.webkitAudioContext) window.webkitAudioContext = Apuntado;
+})();
 // carga_epica.js — la PORTADA ÉPICA mientras se descarga el juego (ver carga_epica.css). Monta encima de la imagen de
 // arranque las luces, los rayos y las brasas, marca el ritmo de la pelea (un latido cada GOLPE s y un GOLPAZO cada
-// GOLPAZO golpes: destello, onda, temblor y fogonazo) y pone el sonido: la música del menú, un rugido al empezar y un
-// trueno en cada golpazo. Los navegadores no dejan sonar nada hasta que se toca la pantalla, así que si no suena solo,
+// GOLPAZO golpes: destello, onda, temblor y fogonazo) y pone el sonido: la música del menú y un trueno en cada golpazo
+// (el rugido del principio, fuera: Guardián 17/10/2026, «elimina el sonido de rugido que aparece al principio»). Los navegadores no dejan sonar nada hasta que se toca la pantalla, así que si no suena solo,
 // sale «Toca para oír la batalla». Cuando Godot quita la pantalla de carga (#status), todo se va con ella y la música
 // se apaga poco a poco. Las posiciones van en fracción de la imagen (720×1280).
 (function () {
@@ -122,7 +134,6 @@
 			sonando = true;
 			aviso.classList.add('fuera');
 			master = ctx.createGain(); master.gain.value = 0.9; master.connect(ctx.destination);
-			carga('jefe').then(function () { suena('jefe', 0.8, 0.85); });
 			carga('golpe_fuerte'); carga('rayo');
 			carga('menu').then(function (buf) {
 				if (!buf || !document.body.contains(status)) return;

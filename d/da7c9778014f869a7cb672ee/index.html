@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Descarga</title>
+<style>body{font-family:sans-serif;background:#141018;color:#eee;text-align:center;padding:40px 16px}
+button{font-size:20px;padding:16px 28px;border:0;border-radius:10px;background:#7a3cff;color:#fff}
+#e{margin-top:20px;font-size:16px}</style></head>
+<body><h2>Descarga privada</h2>
+<button id="b">Descargar</button><div id="e"></div>
+<script>
+const partes=["p0","p1"], nombre="LairLord_0.11-prueba.apk";
+document.getElementById("b").onclick=async()=>{
+ const e=document.getElementById("e"); const trozos=[];
+ try{for(let i=0;i<partes.length;i++){e.textContent="Bajando "+(i+1)+" de "+partes.length+"…";
+  const r=await fetch(partes[i]+"?v=11",{cache:"no-store"}); if(!r.ok) throw new Error(r.status);
+  trozos.push(await r.blob());}
+  const blob=new Blob(trozos,{type:"application/vnd.android.package-archive"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=nombre;
+  document.body.appendChild(a); a.click(); e.textContent="Listo: "+(blob.size/1048576).toFixed(0)+" MB";
+ }catch(x){e.textContent="Error: "+x.message+". Vuelve a intentarlo.";}
+};
+</script></body></html>

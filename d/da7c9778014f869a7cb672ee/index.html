@@ -12,7 +12,7 @@ button{font-size:20px;padding:16px 28px;border:0;border-radius:10px;background:#
 <input id="c" type="password" placeholder="Contraseña" autocomplete="off"><br>
 <button id="b">Descargar</button><div id="e"></div>
 <script>
-const SAL="5c2327d0ad6d7591da3dd9d53c90a00c", ITER=600000, PARTES=["p0.bin","p1.bin"], NOMBRE="LairLord_0.12-prueba.apk", V="12";
+const SAL="1e01f485912a5178945e80c1d7c15972", ITER=600000, PARTES=["p0.bin","p1.bin","p2.bin"], NOMBRE="LairLord_0.15-prueba.apk", V="15";
 const hex=h=>new Uint8Array(h.match(/../g).map(x=>parseInt(x,16)));
 async function clave(txt){
  const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(txt),"PBKDF2",false,["deriveKey"]);
